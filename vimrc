@@ -151,6 +151,11 @@ set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 
 "smarttab: pone indentaciones cuando tiene que ponerlas.
 
+" Mejores indentaciones supuestamente (comentarla si da problemas)
+filetype plugin indent on
+" Si abro vim sin nombre de archivo, y escribo :set filetype=python, por ejemplo, me activa la sintaxis
+" de python y las indentaciones automáticas.
+
 "CUIDADO: Los archivos makefile TIENEN que tener hard-tabs cuando se usan, no
 "valen los espacios!!!! En caso de que use vim para hacer un makefile,
 "desactivar expandtab.
@@ -160,7 +165,9 @@ set number
 
 "Para que se pueda usar el mouse para seleccionar.
 set mouse=a
-set mouse=r
+"set mouse=r
+" Si activo set mouse=r, no funciona set mouse=a. No recuerdo que hace set mouse=r, pero lo agregué en ubuntu
+" En windows no parece que haga nada, pero no se.
 
 "Para poder pegar cosas desde el portapapeles
 set clipboard=unnamed
@@ -177,11 +184,8 @@ set noswapfile
 "Para busqueda incremental
 set incsearch
 
-"COLORSCHEMES CONFIG
-syntax enable
-set background=dark
-"Comentar todo menos el colorscheme que quiero.
-colorscheme slate
+"Agrega una linea para usar de delimitador
+:set colorcolumn=80
 
 "Para que el lenguaje sea ingles
 set langmenu=en_US
@@ -199,12 +203,68 @@ call plug#begin('~/vimfiles/plugged')
   Plug 'morhetz/gruvbox'
   Plug 'jcherven/jummidark.vim'
   Plug 'sainnhe/sonokai'
+  Plug 'sainnhe/gruvbox-material'
   
   "NERDTree
   Plug 'preservim/nerdtree'
   
   "Emmet (abreviaturas para HTML por ejemplo). Se usa con (ctrl+y), (con la coma incluida)
+  " Por ejemplo, escribo html:5 y despues (ctrl+y),
   Plug 'mattn/emmet-vim'
+  
+  " Para cerrar etiquetas de HTML y JSX automáticamente
+  Plug 'alvan/vim-closetag'
+  
+  " Syntax highlighting para varios lenguajes (por alguna razón tiene conflicto con indentline)
+  " Plug 'sheerun/vim-polyglot'
+  
+  " Agrega marcas para las indentaciones. Pueden modificarse (ver el repo en git https://github.com/Yggdroot/indentLine)
+  Plug 'Yggdroot/indentLine'
+  
+  " Permite hacer un seguimiento del repo en GIT
+  if has('nvim') || has('patch-8.0.902')
+	Plug 'mhinz/vim-signify'
+  else
+	Plug 'mhinz/vim-signify', { 'tag': 'legacy' }
+  endif
+  
+  " Para agregar comentarios fácilmente. Se puede agregar soporte para más lenguajes (ver el repo en git)
+  " El comango gcc comenta una linea. gc comenta lo que está seleccionado.
+  Plug 'tpope/vim-commentary'
+  " Uno parecido a este es scrooloose/nerdcommenter
+  
+  " Agrega una barra inferior más linda. En el repo hay muchas opciones de configuración.
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  
+  " Un buscador para la linea de comandos. En el repo hay mucha documentación
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  
+  " Comandos de GIT para usar directamente desde VIM
+  Plug 'tpope/vim-fugitive'
+  
+  " Muestra errores y warnings de forma asincrónica. 
+  " Con el comando :ALEFixSuggest se muestran sugerencias para mejorar el código
+  " Con :ALEHover se puede ver más información sobre un símbolo poniendo el cursor encima.
+  " Se puede usar el comando :help seguido de alguna función para obtener ayuda, por ejemplo :help ale-hover
+  Plug 'dmerejkowsky/vim-ale'
+  
+  " Ayuda para escribir código en C#
+  Plug 'OmniSharp/omnisharp-vim'
+  
+  " Permite rodear código con determinado caracter (paréntesis, llaves etc) fácilmente.
+  Plug 'tpope/vim-surround'
+  
+  " Permite autocompletado usando TAB entre otras cosas
+  Plug 'ervandew/supertab'
+  
+  " Habilita la tecla de . para que se puedan repetir acciones que no son nativas de VIM.
+  " O sea, permite repetir cosas teniendo en cuenta los pluings.
+  " Sin esto, si la ultima tarea que hice es de alguno de los plugins soportados, no va a repetir esa, sino
+  " la última tarea nativa de VIM
+  Plug 'tpope/vim-repeat'
+  
 call plug#end()
 
 " Shortcuts para NERDTree:
@@ -214,20 +274,37 @@ nnoremap <C-t> :NERDTreeToggle<CR>
 
 
 "COLORSCHEMES CONFIG
-syntax enable
-set background=dark
-"Comentar todo menos el colorscheme que quiero.
-"colorscheme dracula
-"colorscheme elflord
-colorscheme gruvbox
-"colorscheme jummidark
 
-"**********************************************************************
-"Para sonokai
+syntax enable
+
+set background=dark
+"set background=light
+
 "IMPORTANT!!
 if has('termguicolors')
     set termguicolors
 endif
+
+"Comentar todo menos el colorscheme que quiero.
+
+"colorscheme dracula
+
+"colorscheme elflord
+"colorscheme slate
+
+"let g:gruvbox_contrast_dark = 'medium'
+"colorscheme gruvbox
+
+" Gruvbox con contraste mas tranqui
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_background = 'hard'
+colorscheme gruvbox-material
+let g:airline_theme = 'gruvbox_material'
+
+"colorscheme jummidark
+
+"**********************************************************************
+"Para sonokai
 
 "The configuration options should be placed before 'colorscheme sonokai'
 "DESCOMENTAR SOLO EL ESTILO QUE QUIERO
@@ -236,10 +313,18 @@ endif
 "let g:sonokai_style = 'andromeda'
 "let g:sonokai_style = 'shusia'
 "let g:sonokai_style = 'maia'
+"let g:sonokai_style = 'espresso'
 
-
+"let g:sonokai_better_performance = 1
 "let g:sonokai_enable_italic = 1
 "let g_sonokai_disable_italic_comment = 1
-
 "colorscheme sonokai
+"let g:airline_theme = 'sonokai'
 "**********************************************************************
+
+" Para pintar el numero de linea actual
+" Es posible que algún colorscheme tenga su propia configuración, en ese caso comentar esto.
+
+hi CursorLineNr guifg=#efefef
+set cursorline
+set cursorlineopt=number
