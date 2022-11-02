@@ -220,6 +220,9 @@ call plug#begin('~/vimfiles/plugged')
   
   " Agrega marcas para las indentaciones. Pueden modificarse (ver el repo en git https://github.com/Yggdroot/indentLine)
   Plug 'Yggdroot/indentLine'
+
+  " React highlights e indentaciones
+  Plug 'maxmellon/vim-jsx-pretty'
   
   " Permite hacer un seguimiento del repo en GIT
   if has('nvim') || has('patch-8.0.902')
