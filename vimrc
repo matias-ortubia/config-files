@@ -333,7 +333,7 @@ set cursorline
 "set cursorlineopt=number
 
 " Cambia el color de la linea horizontal
-highlight CursorLine cterm=NONE guibg=grey17
+highlight CursorLine cterm=NONE guibg=#282828
 
 " Markdown
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'java', 'javascript', 'cpp', 'c']
