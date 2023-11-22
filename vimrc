@@ -243,6 +243,9 @@ call plug#begin('~/vimfiles/plugged')
   " Un buscador para la linea de comandos. En el repo hay mucha documentación
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  " Se usa junto con fzf para asegurarme de que busque en el directorio del
+  " proyecto
+  Plug 'airblade/vim-rooter'
   
   " Comandos de GIT para usar directamente desde VIM
   Plug 'tpope/vim-fugitive'
@@ -252,6 +255,7 @@ call plug#begin('~/vimfiles/plugged')
   " Con :ALEHover se puede ver más información sobre un símbolo poniendo el cursor encima.
   " Se puede usar el comando :help seguido de alguna función para obtener ayuda, por ejemplo :help ale-hover
   Plug 'dmerejkowsky/vim-ale'
+  let g:ale_set_signs = 0
   
   " Ayuda para escribir código en C#
   Plug 'OmniSharp/omnisharp-vim'
@@ -280,6 +284,8 @@ nnoremap <C-t> :NERDTreeToggle<CR>
 
 syntax enable
 
+
+" Supuestamente no es necesario cuando uso ColorSchemes
 set background=dark
 "set background=light
 
@@ -327,13 +333,13 @@ let g:airline_theme = 'gruvbox_material'
 
 " Para pintar el numero de linea actual
 " Es posible que algún colorscheme tenga su propia configuración, en ese caso comentar esto.
-
-hi CursorLineNr guifg=#efefef
+highlight CursorLineNr guifg=#efefef
 set cursorline
 "set cursorlineopt=number
 
 " Cambia el color de la linea horizontal
 highlight CursorLine cterm=NONE guibg=#282828
 
-" Markdown
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'java', 'javascript', 'cpp', 'c']
+
+" Markdown (tpope markdown, que ya viene con las versiones nuevas de Vim)
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'java', 'javascript', 'csh', 'c', 'cpp', 'css']
