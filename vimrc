@@ -204,6 +204,8 @@ call plug#begin('~/vimfiles/plugged')
   Plug 'jcherven/jummidark.vim'
   Plug 'sainnhe/sonokai'
   Plug 'sainnhe/gruvbox-material'
+  Plug 'arzg/vim-colors-xcode'
+
   
   "NERDTree
   Plug 'preservim/nerdtree'
@@ -297,6 +299,8 @@ endif
 
 "let g:gruvbox_contrast_dark = 'medium'
 "colorscheme gruvbox
+"colorscheme xcodedark
+"colorscheme jummidark
 
 " Gruvbox con contraste mas tranqui
 let g:gruvbox_material_better_performance = 1
@@ -304,7 +308,6 @@ let g:gruvbox_material_background = 'hard'
 colorscheme gruvbox-material
 let g:airline_theme = 'gruvbox_material'
 
-"colorscheme jummidark
 
 "**********************************************************************
 "Para sonokai
