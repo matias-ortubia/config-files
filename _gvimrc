@@ -54,3 +54,8 @@ if version >= 500
   " highlight Special gui=NONE guibg=grey95
 
 endif
+
+" Deshabilita el toolbar, la barra de menu y el scrollbar
+set guioptions=Ace 
+" Habilita solo la barra de menu
+set guioptions+=m
