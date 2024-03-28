@@ -327,7 +327,6 @@ let g:airline_theme = 'gruvbox_material'
 
 " Para pintar el numero de linea actual
 " Es posible que algún colorscheme tenga su propia configuración, en ese caso comentar esto.
-
 hi CursorLineNr guifg=#efefef
 set cursorline
 "set cursorlineopt=number
@@ -335,5 +334,18 @@ set cursorline
 " Cambia el color de la linea horizontal
 highlight CursorLine cterm=NONE guibg=#282828
 
-" Markdown
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'java', 'javascript', 'cpp', 'c']
+" Markdown (tpope markdown, que ya viene con las versiones nuevas de Vim)
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'java', 'javascript', 'csh', 'c', 'cpp', 'css']
+
+
+" Colores para Vimdiff (ponerlos despues del colorscheme para sobreescribirlo)
+if &diff
+    highlight CursorLine cterm=NONE guibg=#efefef
+    highlight CursorLineNr guifg=#efefef
+    set colorcolumn=-1
+    
+    hi DiffAdd          gui=none        guifg=#000000       guibg=#bada9f
+    hi DiffChange       gui=none        guifg=#000000       guibg=#e5d5ac
+    hi DiffDelete       gui=bold        guifg=#000000       guibg=#ffb0b0
+    hi DiffText         gui=none        guifg=#000000       guibg=#8cbee2
+endif
