@@ -163,7 +163,8 @@ filetype plugin indent on
 set number
 
 "Margen izquierda
-"set foldcolumn=1
+set foldcolumn=0
+set signcolumn=yes
 
 "Para que se pueda usar el mouse para seleccionar.
 set mouse=a
@@ -171,11 +172,11 @@ set mouse=a
 " Si activo set mouse=r, no funciona set mouse=a. No recuerdo que hace set mouse=r, pero lo agregué en ubuntu
 " En windows no parece que haga nada, pero no se.
 
-"Para poder pegar cosas desde el portapapeles
-set clipboard=unnamed
-
 "Para que los splits los haga a la derecha
 set splitright
+
+"Para poder pegar cosas desde el portapapeles
+set clipboard=unnamed
 
 "Para "comprimir" bloques de codigo
 set foldmethod=manual
@@ -192,16 +193,15 @@ set incsearch
 "Agrega una linea para usar de delimitador
 :set colorcolumn=80
 
-"Para que el lenguaje sea ingles
+"Para que el idioma sea ingles
 set langmenu=en_US
 let $LANG = 'en_US'
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 "**********************************************************************
-" ELIMINAR A PARTIR DE ACA SI ME DA PROBLEMAS
 
-"PLUGINS!! Comentarlos si no los quiero mas.
+"PLUGINS - use :PlugInstall to install them
 "Ejecutar el comando :PlugInstall para instalarlos
 call plug#begin('~/vimfiles/plugged')
   Plug 'dracula/vim/', {'as': 'dracula'}
@@ -211,7 +211,9 @@ call plug#begin('~/vimfiles/plugged')
   Plug 'sainnhe/gruvbox-material'
   Plug 'sainnhe/everforest'
   Plug 'arzg/vim-colors-xcode'
-  Plug 'rose-pine/vim'
+  if (!has('nvim'))
+    Plug 'rose-pine/vim'
+  endif
   Plug 'embark-theme/vim', { 'as': 'embark', 'branch': 'main' }
   Plug 'rhysd/vim-color-spring-night', { 'as': 'spring-night' }
   Plug 'srcery-colors/srcery-vim'
@@ -254,6 +256,9 @@ call plug#begin('~/vimfiles/plugged')
   " Agrega una barra inferior más linda. En el repo hay muchas opciones de configuración.
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+  " let g:airline_powerline_fonts = 1 " Si tengo descargado powerline fonts
+
+  " TODO probar lightline
   
   " Un buscador para la linea de comandos. En el repo hay mucha documentación
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -273,12 +278,13 @@ call plug#begin('~/vimfiles/plugged')
   " Con :ALEHover se puede ver más información sobre un símbolo poniendo el cursor encima.
   " Se puede usar el comando :help seguido de alguna función para obtener ayuda, por ejemplo :help ale-hover
   Plug 'dmerejkowsky/vim-ale'
-  let g:ale_set_signs = 0
+  "let g:ale_set_signs = 0
   
   " Ayuda para escribir código en C#
   Plug 'OmniSharp/omnisharp-vim'
   
   " Permite rodear código con determinado caracter (paréntesis, llaves etc) fácilmente.
+  " También reemplazar caracteres por otros (cambiar de " a ' por ejemplo)
   Plug 'tpope/vim-surround'
   
   " Permite autocompletado usando TAB entre otras cosas
@@ -306,13 +312,7 @@ call plug#begin('~/vimfiles/plugged')
 call plug#end()
 
 
-" Shortcuts para NERDTree:
-
-"ctrl+t para abrir y cerrar.
-nnoremap <C-t> :NERDTreeToggle<CR>
-
-
-"COLORSCHEMES CONFIG
+"COLORS CONFIG
 syntax enable
 
 " Supuestamente no es necesario cuando uso ColorSchemes
@@ -377,7 +377,7 @@ hi CursorLineNr guifg=#efefef
 set cursorline
 "set cursorlineopt=number
 
-" Cambia el color de la linea horizontal
+" Cambia el color de la linea horizontal (en caso de que el colorscheme no lo haga)
 " highlight CursorLine cterm=NONE guibg=#282828
 
 " Markdown (tpope markdown, que ya viene con las versiones nuevas de Vim)
@@ -396,7 +396,7 @@ if &diff
     hi DiffText         gui=none        guifg=#000000       guibg=#8cbee2
 endif
 
-" Remaps / alias
+" KEYMAPS / ALIAS
 let mapleader = ","
 
 "ctrl+t para abrir y cerrar.
