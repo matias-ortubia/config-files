@@ -148,6 +148,9 @@ set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 
 "expandtab: hace que la tecla TAB (en modo INSERTAR) inserte espacios en vez
 "de caracteres tab.
+"CUIDADO: Los archivos makefile TIENEN que tener hard-tabs cuando se usan, no
+"valen los espacios!!!! En caso de que use vim para hacer un makefile,
+"desactivar expandtab.
 
 "smarttab: pone indentaciones cuando tiene que ponerlas.
 
@@ -156,12 +159,11 @@ filetype plugin indent on
 " Si abro vim sin nombre de archivo, y escribo :set filetype=python, por ejemplo, me activa la sintaxis
 " de python y las indentaciones automáticas.
 
-"CUIDADO: Los archivos makefile TIENEN que tener hard-tabs cuando se usan, no
-"valen los espacios!!!! En caso de que use vim para hacer un makefile,
-"desactivar expandtab.
-
 "Para que aparezcan los numeros de lineas.
 set number
+
+"Margen izquierda
+"set foldcolumn=1
 
 "Para que se pueda usar el mouse para seleccionar.
 set mouse=a
@@ -171,6 +173,9 @@ set mouse=a
 
 "Para poder pegar cosas desde el portapapeles
 set clipboard=unnamed
+
+"Para que los splits los haga a la derecha
+set splitright
 
 "Para "comprimir" bloques de codigo
 set foldmethod=manual
@@ -204,7 +209,14 @@ call plug#begin('~/vimfiles/plugged')
   Plug 'jcherven/jummidark.vim'
   Plug 'sainnhe/sonokai'
   Plug 'sainnhe/gruvbox-material'
+  Plug 'sainnhe/everforest'
   Plug 'arzg/vim-colors-xcode'
+  Plug 'rose-pine/vim'
+  Plug 'embark-theme/vim', { 'as': 'embark', 'branch': 'main' }
+  Plug 'rhysd/vim-color-spring-night', { 'as': 'spring-night' }
+  Plug 'srcery-colors/srcery-vim'
+  Plug 'bluz71/vim-moonfly-colors', { 'as': 'moonfly' }
+  Plug 'ajmwagar/vim-deus'
 
   
   "NERDTree
@@ -216,6 +228,7 @@ call plug#begin('~/vimfiles/plugged')
   
   " Para cerrar etiquetas de HTML y JSX automáticamente
   Plug 'alvan/vim-closetag'
+  let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.php,*.jsx"
   
   " Syntax highlighting para varios lenguajes (por alguna razón tiene conflicto con indentline)
   " Plug 'sheerun/vim-polyglot'
@@ -244,7 +257,13 @@ call plug#begin('~/vimfiles/plugged')
   
   " Un buscador para la linea de comandos. En el repo hay mucha documentación
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/fzf.vim'  
+
+  " Se usa junto con fzf para asegurarme de que busque en el directorio del proyecto
+  Plug 'airblade/vim-rooter'
+  if has('win32') || has('win64')
+    let $FZF_DEFAULT_OPTS = '--no-unicode'
+  endif
   
   " Comandos de GIT para usar directamente desde VIM
   Plug 'tpope/vim-fugitive'
@@ -254,6 +273,7 @@ call plug#begin('~/vimfiles/plugged')
   " Con :ALEHover se puede ver más información sobre un símbolo poniendo el cursor encima.
   " Se puede usar el comando :help seguido de alguna función para obtener ayuda, por ejemplo :help ale-hover
   Plug 'dmerejkowsky/vim-ale'
+  let g:ale_set_signs = 0
   
   " Ayuda para escribir código en C#
   Plug 'OmniSharp/omnisharp-vim'
@@ -263,14 +283,28 @@ call plug#begin('~/vimfiles/plugged')
   
   " Permite autocompletado usando TAB entre otras cosas
   Plug 'ervandew/supertab'
+
+  " React highlights e indentaciones
+  Plug 'maxmellon/vim-jsx-pretty'
   
   " Habilita la tecla de . para que se puedan repetir acciones que no son nativas de VIM.
   " O sea, permite repetir cosas teniendo en cuenta los pluings.
   " Sin esto, si la ultima tarea que hice es de alguno de los plugins soportados, no va a repetir esa, sino
   " la última tarea nativa de VIM
   Plug 'tpope/vim-repeat'
-  
+    
+  " Con :Goyo (O los remaps) activa modo sin distracciones.
+  Plug 'junegunn/goyo.vim'
+
+
+  " LSP 
+  if !has('nvim') " Neovim tiene un lsp integrado
+      Plug 'prabirshrestha/vim-lsp'
+      Plug 'mattn/vim-lsp-settings'
+  endif
+
 call plug#end()
+
 
 " Shortcuts para NERDTree:
 
@@ -279,9 +313,9 @@ nnoremap <C-t> :NERDTreeToggle<CR>
 
 
 "COLORSCHEMES CONFIG
-
 syntax enable
 
+" Supuestamente no es necesario cuando uso ColorSchemes
 set background=dark
 "set background=light
 
@@ -290,24 +324,33 @@ if has('termguicolors')
     set termguicolors
 endif
 
-"Comentar todo menos el colorscheme que quiero.
+let current_theme = get(g:, 'colors_name', 'default')
 
 "colorscheme dracula
-
-"colorscheme elflord
-"colorscheme slate
+"colorscheme jummidark
+"colorscheme xcodedark
+"colorscheme sonokai
 
 "let g:gruvbox_contrast_dark = 'medium'
 "colorscheme gruvbox
-"colorscheme xcodedark
-"colorscheme jummidark
 
-" Gruvbox con contraste mas tranqui
-let g:gruvbox_material_better_performance = 1
-let g:gruvbox_material_background = 'hard'
-colorscheme gruvbox-material
-let g:airline_theme = 'gruvbox_material'
+"let g:gruvbox_material_better_performance = 1
+"let g:gruvbox_material_background = 'hard'
+"colorscheme gruvbox-material
+if current_theme == 'gruvbox_material'
+    let g:airline_theme = 'gruvbox_material'
+endif
 
+let g:everforest_background = 'hard'
+colorscheme everforest
+
+"colorscheme rosepine
+"colorscheme spring-night
+if current_theme == 'spring-night'
+    let g:airline_theme = 'spring_night'
+endif
+
+"colorscheme deus
 
 "**********************************************************************
 "Para sonokai
@@ -335,7 +378,7 @@ set cursorline
 "set cursorlineopt=number
 
 " Cambia el color de la linea horizontal
-highlight CursorLine cterm=NONE guibg=#282828
+" highlight CursorLine cterm=NONE guibg=#282828
 
 " Markdown (tpope markdown, que ya viene con las versiones nuevas de Vim)
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'java', 'javascript', 'csh', 'c', 'cpp', 'css']
@@ -351,4 +394,19 @@ if &diff
     hi DiffChange       gui=none        guifg=#000000       guibg=#e5d5ac
     hi DiffDelete       gui=bold        guifg=#000000       guibg=#ffb0b0
     hi DiffText         gui=none        guifg=#000000       guibg=#8cbee2
+endif
+
+" Remaps / alias
+let mapleader = ","
+
+"ctrl+t para abrir y cerrar.
+nnoremap <C-t> :NERDTreeToggle<CR>
+
+:command Zen Goyo
+noremap <leader>zen :Goyo<CR>
+
+"FZF
+if !has('nvim') " Con nvim uso telescope
+    noremap <leader>ff :Files<CR>
+    noremap <leader>fzf :FZF<CR>
 endif
