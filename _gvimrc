@@ -55,7 +55,13 @@ if version >= 500
 
 endif
 
+
 " Deshabilita el toolbar, la barra de menu y el scrollbar
 set guioptions=Ace 
+
 " Habilita solo la barra de menu
 set guioptions+=m
+
+" Cambia el tamano de la ventana
+:set lines=35 columns=84
+:set lines=30 columns=84
