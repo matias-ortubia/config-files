@@ -17,7 +17,7 @@ return require('packer').startup(function(use)
     use('luisiacc/gruvbox-baby')
     vim.g.gruvbox_baby_background_color = "dark"
     vim.g.gruvbox_baby_function_style = "NONE"
-
+    use { "catppuccin/nvim", as = "catppuccin" }
 
 
     use {
@@ -30,6 +30,7 @@ return require('packer').startup(function(use)
     use('nvim-treesitter/playground')
     use('theprimeagen/harpoon')
     use('mbbill/undotree')
+    use({"stevearc/oil.nvim", config = function() require("oil").setup() end,})
 
     
     -- LSP config
