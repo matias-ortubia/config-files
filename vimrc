@@ -219,7 +219,9 @@ call plug#begin('~/vimfiles/plugged')
   Plug 'srcery-colors/srcery-vim'
   Plug 'bluz71/vim-moonfly-colors', { 'as': 'moonfly' }
   Plug 'ajmwagar/vim-deus'
-
+  if (!has('nvim'))
+    Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+  endif
   
   "NERDTree
   Plug 'preservim/nerdtree'
@@ -302,6 +304,11 @@ call plug#begin('~/vimfiles/plugged')
   " Con :Goyo (O los remaps) activa modo sin distracciones.
   Plug 'junegunn/goyo.vim'
 
+  " Colorscheme picker
+  Plug 'shwnchpl/vim-cspicker'
+
+  " Para juntar la barra de estado de Vim con la de Tmux
+  " Plug 'vimpostor/vim-tpipeline'
 
   " LSP 
   if !has('nvim') " Neovim tiene un lsp integrado
@@ -346,30 +353,9 @@ colorscheme everforest
 
 "colorscheme rosepine
 "colorscheme spring-night
-if current_theme == 'spring-night'
-    let g:airline_theme = 'spring_night'
-endif
-
 "colorscheme deus
+"colorscheme catppuccin_mocha
 
-"**********************************************************************
-"Para sonokai
-
-"The configuration options should be placed before 'colorscheme sonokai'
-"DESCOMENTAR SOLO EL ESTILO QUE QUIERO
-"let g:sonokai_style = 'default'
-"let g:sonokai_style = 'atlantis'
-"let g:sonokai_style = 'andromeda'
-"let g:sonokai_style = 'shusia'
-"let g:sonokai_style = 'maia'
-"let g:sonokai_style = 'espresso'
-
-"let g:sonokai_better_performance = 1
-"let g:sonokai_enable_italic = 1
-"let g_sonokai_disable_italic_comment = 1
-"colorscheme sonokai
-"let g:airline_theme = 'sonokai'
-"**********************************************************************
 
 " Para pintar el numero de linea actual
 " Es posible que algún colorscheme tenga su propia configuración, en ese caso comentar esto.
