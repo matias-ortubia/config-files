@@ -310,6 +310,10 @@ call plug#begin('~/vimfiles/plugged')
   " Para juntar la barra de estado de Vim con la de Tmux
   " Plug 'vimpostor/vim-tpipeline'
 
+  " Debugger gráfico (Necesita VIM o NVIM compilado con Python 3.10)
+  Plug 'puremourning/vimspector'
+
+
   " LSP 
   if !has('nvim') " Neovim tiene un lsp integrado
       Plug 'prabirshrestha/vim-lsp'
