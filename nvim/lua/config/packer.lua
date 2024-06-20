@@ -19,7 +19,6 @@ return require('packer').startup(function(use)
     vim.g.gruvbox_baby_function_style = "NONE"
     use { "catppuccin/nvim", as = "catppuccin" }
 
-
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.6',
         -- or                            , branch = '0.1.x',
@@ -31,7 +30,7 @@ return require('packer').startup(function(use)
     use('theprimeagen/harpoon')
     use('mbbill/undotree')
     use({"stevearc/oil.nvim", config = function() require("oil").setup() end,})
-
+    use('mfussenegger/nvim-dap') -- Debugger
     
     -- LSP config
     use {
