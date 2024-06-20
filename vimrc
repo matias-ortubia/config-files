@@ -311,7 +311,9 @@ call plug#begin('~/vimfiles/plugged')
   " Plug 'vimpostor/vim-tpipeline'
 
   " Debugger gráfico (Necesita VIM o NVIM compilado con Python 3.10)
-  Plug 'puremourning/vimspector'
+  if (!has('nvim'))
+    Plug 'puremourning/vimspector'
+  endif
 
 
   " LSP 
